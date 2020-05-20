@@ -27,7 +27,7 @@ A criação e atualização no bucket foi realizada utilizando comandos AWS CLI 
 - aws s3 cp data/trips2012.bz2 s3://ytbd-nyctaxi/trips/trips2012.bz2
 
 
-## Preparação banco de dados
+## Preparação do banco de dados
 
 A criação do database e das tabelas foram realizadas em python utilizando médodos da biblioteca boto3, aplicando scripts/querys no formato do Athena (baseado em Presto) para fontes de dados em CSV (forma de pagamentos e empresas de taxi) e JSON (viagens).
 
