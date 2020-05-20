@@ -35,11 +35,8 @@ Os logs e execuções do Athena são armazenados na pasta "s3://ytbd-nyctaxi/ath
 
 **Database: nyctaxi**
 
-**Tabela: payment**
-payment_type, payment_lookup
+**Tabela payment:** payment_type, payment_lookup
 
-**Tabela: vendor**
-vendor_id, name, address, city, state, zip, country, contact, current_contact
+**Tabela vendor:** vendor_id, name, address, city, state, zip, country, contact, current_contact
 
-**Tabela: trips**
-vendor_id, pickup_datetime, dropoff_datetime, passenger_count,trip_distance, pickup_longitude, pickup_latitude, rate_code, store_and_fwd_flag, dropoff_longitude, dropoff_latitude, payment_type, fare_amount, surcharge, tip_amount, tolls_amount, total_amount
+**Tabela trips:** vendor_id, pickup_datetime, dropoff_datetime, passenger_count,trip_distance, pickup_longitude, pickup_latitude, rate_code, store_and_fwd_flag, dropoff_longitude, dropoff_latitude, payment_type, fare_amount, surcharge, tip_amount, tolls_amount, total_amount
