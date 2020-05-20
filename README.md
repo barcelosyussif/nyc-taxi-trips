@@ -117,10 +117,10 @@ WHERE year(from_iso8601_timestamp(pickup_datetime)) = 2010
 LIMIT 1000
 ```
 ```
-SELECT round(pickup_longitude,1) lon_ini, round(pickup_latitude,1) lat_ini, sum(1) trip_count
+SELECT round(pickup_longitude,2) lon_ini, round(pickup_latitude,2) lat_ini, sum(1) trip_count
 FROM nyctaxi.trips
 WHERE year(from_iso8601_timestamp(pickup_datetime)) = 2010
-GROUP BY round(pickup_longitude,1), round(pickup_latitude,1)
+GROUP BY round(pickup_longitude,2), round(pickup_latitude,2)
 ```
 ![Mapa Viagem1](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/resultado_mapa_viagem1.png)
 ![Mapa Viagem2](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/resultado_mapa_viagem2.png)
