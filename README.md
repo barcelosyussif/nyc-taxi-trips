@@ -105,3 +105,12 @@ ORDER BY pickup_date
 ```
 ![Corridas gorjeta](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/resultado_corridas_gorjeta.png)
 
+
+Mapa de viagens em 2010:
+```
+SELECT vendor_id, cast(from_iso8601_timestamp(pickup_datetime) as date) as pickup_date,
+pickup_longitude, pickup_latitude, dropoff_longitude, dropoff_latitude
+FROM nyctaxi.trips t
+WHERE year(from_iso8601_timestamp(pickup_datetime)) = 2010
+```
+![Mapa Viagem](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/resultado_mapa_viagem.png)
