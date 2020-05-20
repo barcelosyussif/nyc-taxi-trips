@@ -48,16 +48,60 @@ As fórmulas e scripts estão no notebook **nyc-taxi-trips-database**.
 
 As fórmulas e scripts estão no notebook **nyc-taxi-trips-analises**.
 
+
 Distância média percorrida por viagens com no máximo 2 passageiros: **2.66**
+```
+SELECT avg(t.trip_distance) as average_distance
+FROM nyctaxi.trips t
+WHERE t.passenger_count <= 2
+```
 
 Tempo médio em minutos de corridas no fim de semana (sábado e domingo): **8.74**
+```
+SELECT
+avg(date_diff('second',
+  from_iso8601_timestamp(pickup_datetime),
+  from_iso8601_timestamp(dropoff_datetime)
+))/60.0 minutes
+FROM nyctaxi.trips
+WHERE day_of_week(from_iso8601_timestamp(pickup_datetime)) IN (6,7)
+```
 
 Maiores vendors em valor total arrecadado:
+```
+SELECT v.name, sum(t.total_amount) as total_amount
+FROM nyctaxi.trips t
+INNER JOIN nyctaxi.vendor v
+ON v.vendor_id = t.vendor_id
+GROUP BY v.vendor_id, v.name
+ORDER BY total_amount DESC
+LIMIT 3
+```
 ![Maiores Vendors](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/resultado_maiores_vendors.png)
 
 Quantidades de corridas por mês pagas em dinheiro:
+```
+SELECT substr(t.pickup_datetime, 1, 7) as pickup_year_month, count(1) trips_cash_count
+FROM nyctaxi.trips t
+INNER JOIN nyctaxi.payment p
+ON p.payment_type = t.payment_type
+WHERE upper(p.payment_lookup) = 'CASH'
+GROUP BY substr(t.pickup_datetime, 1, 7)
+ORDER BY trips_cash_count
+```
 ![Corridas dinheiro](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/resultado_corridas_dinheiro.png)
 
 Quantidades de corridas com gorjeta por dia dos últimos 3 meses com dados de 2012:
+```
+SELECT MAX(cast(from_iso8601_timestamp(pickup_datetime) as date)) data FROM nyctaxi.trips
+```
+```
+SELECT cast(from_iso8601_timestamp(pickup_datetime) as date) as pickup_date, count(*) trip_count
+FROM nyctaxi.trips
+WHERE tip_amount > 0
+AND cast(from_iso8601_timestamp(pickup_datetime) as date) >= date_add('month',-3,date('{max_data}'))
+GROUP BY cast(from_iso8601_timestamp(pickup_datetime) as date)
+ORDER BY pickup_date
+```
 ![Corridas gorjeta](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/resultado_corridas_gorjeta.png)
 
