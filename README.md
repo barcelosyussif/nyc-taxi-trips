@@ -122,4 +122,5 @@ FROM nyctaxi.trips
 WHERE year(from_iso8601_timestamp(pickup_datetime)) = 2010
 GROUP BY round(pickup_longitude,1), round(pickup_latitude,1)
 ```
-![Mapa Viagem](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/resultado_mapa_viagem.png)
+![Mapa Viagem1](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/resultado_mapa_viagem1.png)
+![Mapa Viagem2](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/resultado_mapa_viagem2.png)
