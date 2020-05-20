@@ -44,10 +44,16 @@ Os logs e execuções do Athena são armazenados na pasta "s3://ytbd-nyctaxi/ath
 
 ## Resultados
 
-Distância média percorrida por viagens com no máximo 2 passageiros: 2.66
+Distância média percorrida por viagens com no máximo 2 passageiros: **2.66**
 
-Tempo médio em minutos de corridas no fim de semana (sábado e domingo): 8.74
+Tempo médio em minutos de corridas no fim de semana (sábado e domingo): **8.74**
 
 Maiores vendors em valor total arrecadado:
+![Maiores Vendors](resultado_maiores_vendors.png)
 
-![resultado](https://maiores_vendors.png)
+Quantidades de corridas por mês pagas em dinheiro:
+![Corridas dinheiro](resultado_corridas_dinheiro.png)
+
+Quantidades de corridas com gorjeta por dia dos últimos 3 meses com dados de 2012:
+![Corridas gorjeta](resultado_corridas_gorjeta.png)
+
