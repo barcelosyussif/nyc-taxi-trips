@@ -33,6 +33,8 @@ A criação do database e das tabelas foram realizadas em python utilizando méd
 
 Os logs e execuções do Athena são armazenados na pasta "s3://ytbd-nyctaxi/athena/".
 
+As fórmulas e scripts estão no notebook **nyc-taxi-trips-database**.
+
 **Database: nyctaxi**
 
 **Tabela payment:** payment_type, payment_lookup
@@ -43,6 +45,8 @@ Os logs e execuções do Athena são armazenados na pasta "s3://ytbd-nyctaxi/ath
 
 
 ## Resultados
+
+As fórmulas e scripts estão no notebook **nyc-taxi-trips-analises**.
 
 Distância média percorrida por viagens com no máximo 2 passageiros: **2.66**
 
