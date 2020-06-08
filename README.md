@@ -18,7 +18,7 @@ Os arquivos com dados são armazenados no serviço Amazon S3 no bucket **ytbd-ny
 - nyctaxi-lakehouse: pasta estruturada e segmentada representando um data lakehouse para consumo de dados 
 
 Foram desenvolvidos serviços Amazon Lambda para identificação de eventos de novos arquivos no bucket e processamento:
-- nyctaxi-lambda-s3-raw: identifica inserção de novos arquivos na pasta raw, copia o arquivo para estrutura de curated e para history (renomeia arquivo com data e hora no formato yyyymmdd-hhmmss-<<arquivo>>.<<extensão>>), e por fim remove o arquivo da raw
+- nyctaxi-lambda-s3-raw: identifica inserção de novos arquivos na pasta raw, copia o arquivo para estrutura de curated e para history e por fim remove o arquivo da raw
 - nyctaxi-lambda-s3-curated: identifica inserço de novos arquivos na pasta curated, transforma o arquivo para a pasta lakehouse (nesse momento apenas copia) e mantém o arquivo também na pasta curated
 
 Neste momento o provisionamento da infraestrutura ainda não foi versionalizado e realizado automaticamente com ferramentas como o TerraForm (esta é uma próxima etapa deste projeto).
@@ -37,7 +37,7 @@ A compactação foi realizada via command no Linux (arquivos na pasta local "dat
 - bzip2 -c data/data-sample_data-nyctaxi-trips-2011-json_corrigido.json > data/trips2011.bz2
 - bzip2 -c data/data-sample_data-nyctaxi-trips-2012-json_corrigido.json > data/trips2012.bz2
 
-A criação e atualização no bucket foi realizada utilizando comandos AWS CLI (AWS Command Line Interface, autenticado localmente):
+A criação e atualização no bucket foi realizada utilizando comandos AWS CLI (autenticado localmente):
 
 - aws s3api create-bucket --bucket ytbd-nyctaxi
 - aws s3 cp data/payment.bz2 s3://ytbd-nyctaxi/nyctaxi-raw/payment/payment.bz2
@@ -46,6 +46,68 @@ A criação e atualização no bucket foi realizada utilizando comandos AWS CLI 
 - aws s3 cp data/trips2010.bz2 s3://ytbd-nyctaxi/nyctaxi-raw/trips/trips2010.bz2
 - aws s3 cp data/trips2011.bz2 s3://ytbd-nyctaxi/nyctaxi-raw/trips/trips2011.bz2
 - aws s3 cp data/trips2012.bz2 s3://ytbd-nyctaxi/nyctaxi-raw/trips/trips2012.bz2
+
+
+## Função nyctaxi-lambda-s3-raw
+
+A função identifica inserção de novos arquivos na pasta raw, copia o arquivo para estrutura de curated e para history (renomeia arquivo com data e hora no formato yyyymmdd-hhmmss-<<arquivo>>.<<extensão>>) e por fim remove o arquivo da pasta raw.
+
+
+**Código função Lambda**
+
+```
+
+import json
+import urllib.parse
+import boto3
+from datetime import datetime
+
+s3 = boto3.client('s3')
+
+def lambda_handler(event, context):
+
+    # Recupera objeto do evento
+    bucket = event['Records'][0]['s3']['bucket']['name']
+    key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'], encoding='utf-8')
+
+    # Move para curated e history (glacial) zone
+    try:
+
+        response = s3.get_object(Bucket=bucket, Key=key)
+        obj_content_type = response['ContentType']
+
+        key_curated = key.replace('nyctaxi-raw','nyctaxi-curated')
+        key_folder = key[:key.rfind('/')].replace('nyctaxi-raw','nyctaxi-history')
+        key_file = key[key.rfind('/')+1:]
+        key_date = datetime.now().strftime("%Y%m%d-%H%M%S")
+        key_history = '{}/{}-{}'.format(key_folder, key_file, key_date)
+
+        # Novo arquivo identificado
+        print('Novo arquivo identificado: {}/{}'.format(bucket, key))
+
+        # Copia arquivo para área de curated zone
+        print('Copia arquivo para área de curated zone: {}/{}'.format(bucket, key_curated))
+        copy_source = { 'Bucket' : bucket, 'Key' : key }
+        s3.copy(copy_source, bucket, key_curated)
+
+        # Copia arquivo para área de histórico
+        print('Copia arquivo para área de histórico: {}/{}'.format(bucket, key_history))
+        copy_source = { 'Bucket' : bucket, 'Key' : key }
+        s3.copy(copy_source, bucket, key_history)
+
+        # Remove arquivo de raw zone
+        s3d = boto3.resource('s3')
+        s3d.Object(bucket, key).delete()
+
+        return bucket, key, obj_content_type
+
+    except Exception as e:
+
+        print(e)
+        print('Erro ao recuperar / traballhar arquivo {} do bucket {}.'.format(key, bucket))
+        raise e
+
+```
 
 
 ## Preparação do banco de dados
