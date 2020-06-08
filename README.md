@@ -16,7 +16,7 @@ Escolheu-se a AWS por ser referência no mercado de serviços em cloud com grand
 Os arquivos com dados são armazenados no serviço Amazon S3 no bucket **ytbd-nyctaxi**, sendo distribuído em diretórios:
 - nyctaxi-raw: pasta para ingestão de dados originais sem transformação
 - nyctaxi-curated: pasta para arquivos filtrados e com transformações simples quando aplicadas
-- nyctaxi-history: pasta para cópia de arquivos originais para histórico, removidos da raw após transferência para curated
+- nyctaxi-history: pasta para cópia de arquivos originais para histórico (utilizando categoria de armazenamento Glacier da AWS), removidos da raw após transferência para curated
 - nyctaxi-lakehouse: pasta estruturada e segmentada representando um data lakehouse para consumo de dados 
 
 Foram desenvolvidos serviços Amazon Lambda para identificação de eventos de novos arquivos no bucket e processamento:
@@ -427,3 +427,18 @@ GROUP BY round(dropoff_longitude,2), round(dropoff_latitude,2)
 ORDER BY trip_count DESC
 limit 1000
 ```
+
+## Análise aprendizado e perspectivas de evoluções
+
+Foi possível neste projeto ter maior contato com os serviços da AWS e aprendizado de novas tecnologias como o Redshift e o Lambda.
+
+Algumas evoluções são importantes tanto na soluão quanto no aprendizado:
+- provisionamento e versionamento da infraestrutura automaticamente com ferramentas como o TerraForm
+- melhoria de performance e automatização do Redshift
+- utilização de conector ODBC do Redshift no Power BI ou em outras ferramentas de visualização de dados
+- revisão do Lambda para avaliação de arquivos no raw, compactação e melhor direcionamento para a curated zone
+- transformação de dados da curated zone para a lakehouse aplicando tecnologias como o Redshift Spectrum
+- utilização do git com branchs das etapas desenvolvidas
+- aperfeiçoamento das visualizações e aplicação de filtros dinâmicos
+- maior exploração dos dados sobre aspectos financeiros, tempos e trajetos das viagens
+- avaliação e aplicação de tecnologias de streaming para simulação de dados realtime
