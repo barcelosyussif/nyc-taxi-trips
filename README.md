@@ -2,6 +2,7 @@
 
 Esse projeto realiza a análise de base de dados de corrida de taxi em Nova York no período de 2009 a 2012, considerando caracteŕisticas como tempo entre corridas, existência de gorjetas, valores em dinheiro, volume de corridas por mês ou dia.
 
+![Logo](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/logo.png) ![Taxi](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/taxi.png)
 
 ## Arquitetura Geral
 
