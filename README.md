@@ -385,3 +385,9 @@ FROM nyctaxi.trips
 WHERE substring(pickup_datetime,1,4) = '2010'
 GROUP BY round(pickup_longitude,4), round(pickup_latitude,4)
 ```
+```
+SELECT round(dropoff_longitude,4) lon_fim, round(dropoff_latitude,4) lat_fim, sum(1) trip_count
+FROM nyctaxi.trips
+WHERE substring(pickup_datetime,1,4) = '2010'
+GROUP BY round(dropoff_longitude,4), round(dropoff_latitude,4)
+```
