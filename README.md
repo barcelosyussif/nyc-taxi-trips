@@ -430,9 +430,9 @@ limit 1000
 
 ## Análise aprendizado e perspectivas de evoluções
 
-Foi possível neste projeto ter maior contato com os serviços da AWS e aprendizado de novas tecnologias como o Redshift e o Lambda.
+Esse projeto possibilitou ter maior contato com os serviços da AWS e aprendizado de novas tecnologias como o Redshift e o Lambda.
 
-Algumas evoluções são importantes tanto na soluão quanto no aprendizado:
+Algumas evoluções são importantes tanto na solução quanto no aprendizado:
 - provisionamento e versionamento da infraestrutura automaticamente com ferramentas como o TerraForm
 - melhoria de performance e automatização do Redshift
 - utilização de conector ODBC do Redshift no Power BI ou em outras ferramentas de visualização de dados
@@ -442,3 +442,4 @@ Algumas evoluções são importantes tanto na soluão quanto no aprendizado:
 - aperfeiçoamento das visualizações e aplicação de filtros dinâmicos
 - maior exploração dos dados sobre aspectos financeiros, tempos e trajetos das viagens
 - avaliação e aplicação de tecnologias de streaming para simulação de dados realtime
+- remoções períódicas de dados da history zone mantendo apenas o que o for relevante
