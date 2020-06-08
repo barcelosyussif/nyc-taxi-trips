@@ -2,7 +2,15 @@
 
 Esse projeto realiza a análise de base de dados de corrida de taxi em Nova York no período de 2009 a 2012, considerando caracteŕisticas como tempo entre corridas, existência de gorjetas, valores em dinheiro, volume de corridas por mês ou dia.
 
-![Logo](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/logo.png) ![Taxi](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/taxi.png)
+![Taxi](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/taxi.png)
+
+
+## Visualizações dos dados
+
+![Painel Geral](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel1.png)
+
+![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel2.png)
+
 
 ## Arquitetura Geral
 
@@ -309,8 +317,7 @@ region 'us-east-1' json 'auto' bzip2;
 
 ```
 
-
-## Consultas referência de resultados
+## Consultas referência visualizações
 
 
 Distância média percorrida por viagens com no máximo 2 passageiros: **2.65**
