@@ -1,6 +1,12 @@
 # NYC TAXI TRIPS
 
-Análise de base de dados de corrida de taxi em Nova York no período de 2009 a 2012, considerando caracteŕisticas como tempo entre corridas, existência de gorjetas, valores em dinheiro, volume de corridas por mês ou dia.
+Esse projeto realiza a análise de base de dados de corrida de taxi em Nova York no período de 2009 a 2012, considerando caracteŕisticas como tempo entre corridas, existência de gorjetas, valores em dinheiro, volume de corridas por mês ou dia.
+
+## Arquitetura Geral
+
+A arquitetura utiliza infraestrutura de data lake da AWS para armazenamento, processamento e disponibilização de data warehouse e data lake para consumo de dados.
+
+![Arquitetura Geral](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/arquitetura_geral.png)
 
 
 ## Preparação de dados
