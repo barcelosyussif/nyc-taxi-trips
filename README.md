@@ -378,16 +378,23 @@ round(pickup_longitude,1) lon_ini, round(pickup_latitude,1) lat_ini,
 round(dropoff_longitude,1) lon_fim, round(dropoff_latitude,1) lat_fim
 FROM nyctaxi.trips
 WHERE substring(pickup_datetime,1,4) = '2010'
+limit 1000
 ```
 ```
-SELECT round(pickup_longitude,4) lon_ini, round(pickup_latitude,4) lat_ini, sum(1) trip_count
+SELECT round(pickup_longitude,2) lon_ini, round(pickup_latitude,2) lat_ini, sum(1) trip_count
 FROM nyctaxi.trips
 WHERE substring(pickup_datetime,1,4) = '2010'
-GROUP BY round(pickup_longitude,4), round(pickup_latitude,4)
+AND round(pickup_longitude,4) <> '0.0000'
+GROUP BY round(pickup_longitude,2), round(pickup_latitude,2)
+ORDER BY trip_count DESC
+limit 1000
 ```
 ```
-SELECT round(dropoff_longitude,4) lon_fim, round(dropoff_latitude,4) lat_fim, sum(1) trip_count
+SELECT round(dropoff_longitude,2) lon_ini, round(dropoff_latitude,2) lat_ini, sum(1) trip_count
 FROM nyctaxi.trips
 WHERE substring(pickup_datetime,1,4) = '2010'
-GROUP BY round(dropoff_longitude,4), round(dropoff_latitude,4)
+AND round(pickup_longitude,4) <> '0.0000'
+GROUP BY round(dropoff_longitude,2), round(dropoff_latitude,2)
+ORDER BY trip_count DESC
+limit 1000
 ```
