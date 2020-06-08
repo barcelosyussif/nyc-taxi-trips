@@ -311,25 +311,23 @@ region 'us-east-1' json 'auto' bzip2;
 
 ## Resultados
 
-As fórmulas e scripts estão no notebook **nyc-taxi-trips-analises**.
 
-
-Distância média percorrida por viagens com no máximo 2 passageiros: **2.66**
+Distância média percorrida por viagens com no máximo 2 passageiros: **2.65**
 ```
-SELECT avg(t.trip_distance) as average_distance
-FROM nyctaxi.trips t
-WHERE t.passenger_count <= 2
+SELECT avg(trip_distance) as average_distance
+FROM nyctaxi.trips
+WHERE passenger_count <= 2
 ```
 
-Tempo médio em minutos de corridas no fim de semana (sábado e domingo): **8.74**
+Tempo médio em minutos de corridas no fim de semana (sábado e domingo): **8.73**
 ```
 SELECT
 avg(date_diff('second',
-  from_iso8601_timestamp(pickup_datetime),
-  from_iso8601_timestamp(dropoff_datetime)
+  cast(left(replace(pickup_datetime,'T',' '),19) AS DATETIME),
+  cast(left(replace(dropoff_datetime,'T',' '),19) AS DATETIME)
 ))/60.0 minutes
 FROM nyctaxi.trips
-WHERE day_of_week(from_iso8601_timestamp(pickup_datetime)) IN (6,7)
+WHERE date_part(dow, cast(left(pickup_datetime,10) AS date)) IN (6.0,0.0)
 ```
 
 Maiores vendors em valor total arrecadado:
