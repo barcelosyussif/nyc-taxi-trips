@@ -378,11 +378,10 @@ round(pickup_longitude,1) lon_ini, round(pickup_latitude,1) lat_ini,
 round(dropoff_longitude,1) lon_fim, round(dropoff_latitude,1) lat_fim
 FROM nyctaxi.trips
 WHERE substring(pickup_datetime,1,4) = '2010'
-LIMIT 1000
 ```
 ```
-SELECT round(pickup_longitude,2) lon_ini, round(pickup_latitude,2) lat_ini, sum(1) trip_count
+SELECT round(pickup_longitude,4) lon_ini, round(pickup_latitude,4) lat_ini, sum(1) trip_count
 FROM nyctaxi.trips
 WHERE substring(pickup_datetime,1,4) = '2010'
-GROUP BY round(pickup_longitude,2), round(pickup_latitude,2)
+GROUP BY round(pickup_longitude,4), round(pickup_latitude,4)
 ```
