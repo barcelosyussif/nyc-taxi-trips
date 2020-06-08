@@ -2,16 +2,31 @@
 
 Esse projeto realiza a análise de base de dados de corrida de taxi em Nova York no período de 2009 a 2012, considerando caracteŕisticas como tempo entre corridas, existência de gorjetas, valores em dinheiro, volume de corridas por mês ou dia.
 
+
 ## Arquitetura Geral
 
-A arquitetura utiliza infraestrutura de data lake da AWS para armazenamento, processamento e disponibilização de data warehouse e data lake para consumo de dados.
+A arquitetura utiliza infraestrutura da AWS para armazenamento, processamento e disponibilização de data warehouse e data lake para consumo de dados.
+
+Escolheu-se a AWS por ser referência no mercado de serviços em cloud com grande representatividade, completa com simplicidade de desenvolvimento, qualidade, custos baixos, alta escalabilidade.
 
 ![Arquitetura Geral](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/arquitetura_geral.png)
 
+Os arquivos com dados são armazenados no serviço Amazon S3 no bucket **ytbd-nyctaxi**, sendo distribuído em diretórios:
+- nyctaxi-raw: pasta para ingestão de dados originais sem transformação
+- nyctaxi-curated: pasta para arquivos filtrados e com transformações simples quando aplicadas
+- nyctaxi-history: pasta para cópia de arquivos originais para histórico, removidos da raw após transferência para curated
+- nyctaxi-lakehouse: pasta estruturada e segmentada representando um data lakehouse para consumo de dados 
 
-## Preparação de dados
+Foram desenvolvidos serviços Amazon Lambda para identificação de eventos de novos arquivos no bucket e processamento:
+- nyctaxi-lambda-s3-raw: identifica inserção de novos arquivos na pasta raw, copia o arquivo para estrutura de curated e para history (renomeia arquivo com data e hora no formato yyyymmdd-hhmmss-arquivo.extensão), remove o arquivo da raw
+- nyctaxi-lambda-s3-curated: identifica inserço de novos arquivos na pasta curated, transforma o arquivo para a pasta lakehouse (nesse momento apenas copia) e mantém o arquivo também na pasta curated
 
-Os dados foram extraídos da base disponibilizada, compactados em formato BZ2 (bzip), armazenados no bucket storage da AWS S3 e consumidos a partir do AWS Athena (este realiza a leitura a partir do storage). Ao armazenar o dado compactado reduz-se a tranferência de dados e custo de  consumo deste dado inclusive no AWS Athena.
+Neste momento o provisionamento da infraestrutura ainda não foi versionalizado e realizado automaticamente com ferramentas como o TerraForm (esta é uma próxima etapa deste projeto).
+
+
+## Ingestão de dados
+
+Os dados foram extraídos da base disponibilizada, compactados em formato bzip2/bz2 e armazenados no bucket **ytbd-nyctaxi** no diretório **nyctaxi-raw** (ao armazenar o dado compactado reduz-se a tranferência de dados e custo de consumo).
 
 A compactação foi realizada via command no Linux (arquivos na pasta local "data"):
 
@@ -25,12 +40,12 @@ A compactação foi realizada via command no Linux (arquivos na pasta local "dat
 A criação e atualização no bucket foi realizada utilizando comandos AWS CLI (AWS Command Line Interface, autenticado localmente):
 
 - aws s3api create-bucket --bucket ytbd-nyctaxi
-- aws s3 cp data/payment.bz2 s3://ytbd-nyctaxi/payment/payment.bz2
-- aws s3 cp data/vendor.bz2 s3://ytbd-nyctaxi/vendor/vendor.bz2
-- aws s3 cp data/trips2009.bz2 s3://ytbd-nyctaxi/trips/trips2009.bz2
-- aws s3 cp data/trips2010.bz2 s3://ytbd-nyctaxi/trips/trips2010.bz2
-- aws s3 cp data/trips2011.bz2 s3://ytbd-nyctaxi/trips/trips2011.bz2
-- aws s3 cp data/trips2012.bz2 s3://ytbd-nyctaxi/trips/trips2012.bz2
+- aws s3 cp data/payment.bz2 s3://ytbd-nyctaxi/nyctaxi-raw/payment/payment.bz2
+- aws s3 cp data/vendor.bz2 s3://ytbd-nyctaxi/nyctaxi-raw/vendor/vendor.bz2
+- aws s3 cp data/trips2009.bz2 s3://ytbd-nyctaxi/nyctaxi-raw/trips/trips2009.bz2
+- aws s3 cp data/trips2010.bz2 s3://ytbd-nyctaxi/nyctaxi-raw/trips/trips2010.bz2
+- aws s3 cp data/trips2011.bz2 s3://ytbd-nyctaxi/nyctaxi-raw/trips/trips2011.bz2
+- aws s3 cp data/trips2012.bz2 s3://ytbd-nyctaxi/nyctaxi-raw/trips/trips2012.bz2
 
 
 ## Preparação do banco de dados
