@@ -7,9 +7,28 @@ Esse projeto realiza a análise de base de dados de corrida de taxi em Nova York
 
 ## Visualizações dos dados
 
+Nesta primeira visualização temos informações gerais:
+- Distância média percorrida por viagens com no máximo 2 passageiros
+- Tempo médio em minutos de corridas no fim de semana (sábado e domingo)
+- Os 3 maiores fornecedores em valor total arrecadado
+- Quantidades de corridas pagas em dinheiro por mês e sua distribuição mensal em histograma
+- Quantidades de gorjetas diárias (visão geral e visão mais detalhada por dia)
+
 ![Painel Geral](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel1.png)
 
+Neste mapa temos uma visão geral das maiores localidades de início e fim das viagens. Obseva-se grande concentração em Manhatttan, Brooklyn, New York, Aeroportos John Kennedy e LaGuardia.
+
 ![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel2.png)
+
+É interessante observar que as viagens possuem um volume maior de destino que de origem na proximidade do Harlem, Waghinton Heights e Brooklyn.
+
+![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel2inicio.png)
+
+![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel2fim.png)
+
+Nessa última visão percebe-se uma concentração de destino é maior nos arredores de New York e há um volume interessante de origens mais distantes de New York.
+
+![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel3.png)
 
 
 ## Arquitetura Geral
