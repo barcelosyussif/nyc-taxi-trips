@@ -18,7 +18,7 @@ Os arquivos com dados são armazenados no serviço Amazon S3 no bucket **ytbd-ny
 - nyctaxi-lakehouse: pasta estruturada e segmentada representando um data lakehouse para consumo de dados 
 
 Foram desenvolvidos serviços Amazon Lambda para identificação de eventos de novos arquivos no bucket e processamento:
-- nyctaxi-lambda-s3-raw: identifica inserção de novos arquivos na pasta raw, copia o arquivo para estrutura de curated e para history (renomeia arquivo com data e hora no formato yyyymmdd-hhmmss-arquivo.extensão), remove o arquivo da raw
+- nyctaxi-lambda-s3-raw: identifica inserção de novos arquivos na pasta raw, copia o arquivo para estrutura de curated e para history (renomeia arquivo com data e hora no formato yyyymmdd-hhmmss-<<arquivo>>.<<extensão>>), e por fim remove o arquivo da raw
 - nyctaxi-lambda-s3-curated: identifica inserço de novos arquivos na pasta curated, transforma o arquivo para a pasta lakehouse (nesse momento apenas copia) e mantém o arquivo também na pasta curated
 
 Neste momento o provisionamento da infraestrutura ainda não foi versionalizado e realizado automaticamente com ferramentas como o TerraForm (esta é uma próxima etapa deste projeto).
