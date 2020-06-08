@@ -41,7 +41,7 @@ Nesta primeira visualização temos informações gerais:
 
 Neste mapa temos uma visão geral das maiores localidades de início e fim das viagens. Obseva-se grande concentração em Manhatttan, Brooklyn, New York, Aeroportos John Kennedy e LaGuardia.
 
-![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel2.png)
+![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel2.PNG)
 
 É interessante observar que as viagens possuem um volume maior de destino que de origem na proximidade do Harlem, Waghinton Heights e Brooklyn.
 
@@ -51,7 +51,7 @@ Neste mapa temos uma visão geral das maiores localidades de início e fim das v
 
 Nessa última visão percebe-se uma concentração de destino é maior nos arredores de New York e há um volume interessante de origens mais distantes de New York.
 
-![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel3.png)
+![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel3.PNG)
 
 
 ## Ingestão de dados
