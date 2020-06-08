@@ -288,7 +288,7 @@ create table nyctaxi.trips (
 
 ```
 
-**Scripts criação schema e tabelas**
+**Scripts carga de dados**
 
 Os dados foram carregados no Redshift utilizando o command **COPY** no Query Editor, mepeando os dados a partir das respectivas pastas no lakehouse com seus formatos e tipos de arquivos.
 
