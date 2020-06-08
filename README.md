@@ -28,7 +28,7 @@ Neste momento o provisionamento da infraestrutura ainda não foi versionalizado 
 
 ## Visualizações dos dados
 
-As visualizações de dados foram desenvolvidas utilizando o Power BI. As consultas com os dados foram exportadas do Redshift em formato csv (ocorreu um problema no conector ODBC do Power BI com o Redshift, por isso não foi possível fazer as consultas diretamente).
+As visualizações de dados foram desenvolvidas utilizando o Power BI (NYC-Taxi.pbix). As consultas com os dados foram exportadas do Redshift em formato csv (nyctaxi-dadoscsvpowerbi.zip) pois ocorreu um problema no conector ODBC do Power BI com o Redshift, assim não foi possível fazer as consultas diretamente.
 
 Nesta primeira visualização temos informações gerais:
 - Distância média percorrida por viagens com no máximo 2 passageiros
