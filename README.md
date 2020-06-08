@@ -50,8 +50,38 @@ A criação e atualização no bucket foi realizada utilizando comandos AWS CLI 
 
 ## Função nyctaxi-lambda-s3-raw
 
-A função identifica inserção de novos arquivos na pasta raw, copia o arquivo para estrutura de curated e para history (renomeia arquivo com data e hora no formato yyyymmdd-hhmmss-<<arquivo>>.<<extensão>>) e por fim remove o arquivo da pasta raw.
+A função identifica inserção de novos arquivos na pasta raw, copia o arquivo para estrutura de curated e para history (renomeia arquivo com data e hora no formato yyyymmdd-hhmmss-<<arquivo.extensão>>) e por fim remove o arquivo da pasta raw.
 
+**Role nyctaxi-role-s3-raw**
+
+Foi aplicada a role **nyctaxi-role-s3-raw** com as políticas:
+- AmazonS3FullAccess
+
+```
+{
+  "Version": "2012-10-17",
+  "Id": "default",
+  "Statement": [
+    {
+      "Sid": "lambda-bbabdfdb-c0b6-4a1c-bbcc-0a1fce603700",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:716124686595:function:nyctaxi-lambda-s3-raw",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "716124686595"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::ytbd-nyctaxi"
+        }
+      }
+    }
+  ]
+}
+```
 
 **Código função Lambda**
 
