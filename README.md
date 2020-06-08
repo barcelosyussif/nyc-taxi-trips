@@ -45,9 +45,9 @@ Neste mapa temos uma visão geral das maiores localidades de início e fim das v
 
 É interessante observar que as viagens possuem um volume maior de destino que de origem na proximidade do Harlem, Waghinton Heights e Brooklyn.
 
-![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel2inicio.png)
+![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel2-origem.png)
 
-![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel2fim.png)
+![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel2-destino.png)
 
 Nessa última visão percebe-se uma concentração de destino é maior nos arredores de New York e há um volume interessante de origens mais distantes de New York.
 
