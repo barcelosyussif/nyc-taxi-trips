@@ -331,6 +331,9 @@ WHERE date_part(dow, cast(left(pickup_datetime,10) AS date)) IN (6.0,0.0)
 ```
 
 Maiores vendors em valor total arrecadado:
+- **Creative Mobile Technologies, LLC - 19542120.60**
+- **VeriFone Inc - 19036953.84**
+- **Dependable Driver Service, Inc - 2714003.52**
 ```
 SELECT v.name, sum(t.total_amount) as total_amount
 FROM nyctaxi.trips t
@@ -340,7 +343,6 @@ GROUP BY v.vendor_id, v.name
 ORDER BY total_amount DESC
 LIMIT 3
 ```
-![Maiores Vendors](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/resultado_maiores_vendors.png)
 
 Quantidades de corridas por mês pagas em dinheiro:
 ```
