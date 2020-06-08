@@ -216,21 +216,30 @@ def lambda_handler(event, context):
         raise e
 ```
 
-## Preparação do banco de dados
+## Banco de dados
 
-A criação do database e das tabelas foram realizadas em python utilizando médodos da biblioteca boto3, aplicando scripts/querys no formato do Athena (baseado em Presto) para fontes de dados em CSV (forma de pagamentos e empresas de taxi) e JSON (viagens).
+O serviço do Amazon Redshift gerencia todo o trabalho de um data warehouse com opções de busca de dados a partir de arquivos do S3 (nesta solução buscando os dados a partir do diretório **nyctaxi-lakehouse**).
 
-Os logs e execuções do Athena são armazenados na pasta "s3://ytbd-nyctaxi/athena/".
+**Cluster:** nyctaxi-dw
 
-As fórmulas e scripts estão no notebook **nyc-taxi-trips-database**.
+**Role:** nyctaxi-role-redshift (AmazonRedshiftQueryEditor, AmazonRedshiftFullAccess, AmazonS3ReadOnlyAccess)
 
-**Database: nyctaxi**
+**Database:** nyctaxi
 
-**Tabela payment:** payment_type, payment_lookup
+**Tabela payment:**
+- subdiretório: payment
+- tipo de arquivo: csv
+- campos: payment_type, payment_lookup
 
-**Tabela vendor:** vendor_id, name, address, city, state, zip, country, contact, current_contact
+**Tabela vendor:**
+- subdiretório: vendor
+- tipo de arquivo: csv
+- campos: vendor_id, name, address, city, state, zip, country, contact, current_contact
 
-**Tabela trips:** vendor_id, pickup_datetime, dropoff_datetime, passenger_count,trip_distance, pickup_longitude, pickup_latitude, rate_code, store_and_fwd_flag, dropoff_longitude, dropoff_latitude, payment_type, fare_amount, surcharge, tip_amount, tolls_amount, total_amount
+**Tabela trips:**
+- subdiretório: payment
+- tipo de arquivo: json
+- campos: vendor_id, pickup_datetime, dropoff_datetime, passenger_count,trip_distance, pickup_longitude, pickup_latitude, rate_code, store_and_fwd_flag, dropoff_longitude, dropoff_latitude, payment_type, fare_amount, surcharge, tip_amount, tolls_amount, total_amount
 
 
 ## Resultados
