@@ -346,30 +346,29 @@ LIMIT 3
 
 Quantidades de corridas por mês pagas em dinheiro:
 ```
-SELECT substr(t.pickup_datetime, 1, 7) as pickup_year_month, count(1) trips_cash_count
+SELECT substring(t.pickup_datetime,1,7) as pickup_year_month, count(1) trips_cash_count
 FROM nyctaxi.trips t
 INNER JOIN nyctaxi.payment p
 ON p.payment_type = t.payment_type
 WHERE upper(p.payment_lookup) = 'CASH'
-GROUP BY substr(t.pickup_datetime, 1, 7)
+GROUP BY substring(t.pickup_datetime,1,7)
 ORDER BY trips_cash_count
 ```
-![Corridas dinheiro](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/resultado_corridas_dinheiro.png)
 
 Quantidades de corridas com gorjeta por dia dos últimos 3 meses com dados de 2012:
 ```
-SELECT MAX(cast(from_iso8601_timestamp(pickup_datetime) as date)) data FROM nyctaxi.trips
-```
-```
-SELECT cast(from_iso8601_timestamp(pickup_datetime) as date) as pickup_date, count(*) trip_count
+SELECT cast(substring(pickup_datetime,1,10) as date) as pickup_date, count(*) trip_count
 FROM nyctaxi.trips
 WHERE tip_amount > 0
-AND cast(from_iso8601_timestamp(pickup_datetime) as date) >= date_add('month',-3,date('{max_data}'))
-GROUP BY cast(from_iso8601_timestamp(pickup_datetime) as date)
+AND cast(substring(pickup_datetime,1,10) as date) >=
+dateadd(month,-3,(
+  select max(cast(substring(pickup_datetime,1,10) as date))
+  from nyctaxi.trips
+  where substring(pickup_datetime,1,4) = '2012'
+))
+GROUP BY cast(substring(pickup_datetime,1,10) as date)
 ORDER BY pickup_date
 ```
-![Corridas gorjeta](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/resultado_corridas_gorjeta.png)
-
 
 Mapa de viagens em 2010:
 ```
