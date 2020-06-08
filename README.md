@@ -54,8 +54,7 @@ A função identifica inserção de novos arquivos na pasta raw, copia o arquivo
 
 **Role nyctaxi-role-s3-raw**
 
-Foi aplicada a role **nyctaxi-role-s3-raw** com as políticas:
-- AmazonS3FullAccess
+Foi aplicada a role **nyctaxi-role-s3-raw** com as políticas: AmazonS3FullAccess
 
 ```
 {
@@ -146,8 +145,7 @@ Esta função posteriormente poderia ser incrementada para transformação dos d
 
 **Role nyctaxi-role-s3-curated**
 
-Foi aplicada a role **nyctaxi-role-s3-curated** com as políticas:
-- AmazonS3FullAccess
+Foi aplicada a role **nyctaxi-role-s3-curated** com as políticas: AmazonS3FullAccess
 
 ```
 {
