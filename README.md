@@ -218,7 +218,7 @@ def lambda_handler(event, context):
 
 O serviço do Amazon Redshift gerencia todo o trabalho de um data warehouse com opções de busca de dados a partir de arquivos do S3 (nesta solução buscando os dados a partir do diretório **nyctaxi-lakehouse**).
 
-**Cluster:** nyctaxi-dw
+**Cluster:** nyctaxi-dw (dc2.large, 1 node, 160 GB)
 
 **Role:** nyctaxi-role-redshift (AmazonRedshiftQueryEditor, AmazonRedshiftFullAccess, AmazonS3ReadOnlyAccess)
 
@@ -235,9 +235,58 @@ O serviço do Amazon Redshift gerencia todo o trabalho de um data warehouse com 
 - campos: vendor_id, name, address, city, state, zip, country, contact, current_contact
 
 **Tabela trips:**
-- subdiretório: payment
+- subdiretório: trips
 - tipo de arquivo: json
 - campos: vendor_id, pickup_datetime, dropoff_datetime, passenger_count,trip_distance, pickup_longitude, pickup_latitude, rate_code, store_and_fwd_flag, dropoff_longitude, dropoff_latitude, payment_type, fare_amount, surcharge, tip_amount, tolls_amount, total_amount
+
+**Scripts criação schema e tabelas**
+
+Nesta etapa os scripts foram criados manualmente utilizando o Query Editor do Redshift.
+
+A melhor opção é criar de forma automática para melhor organização e versionamento, mas no momento falta conhecimento suficiente para fazê-lo.
+
+```
+
+create schema nyctaxi;
+
+create table nyctaxi.vendor (
+  vendor_id varchar(3) not null,
+  name varchar(100),
+  address varchar(100),
+  city varchar(100),
+  state varchar(2),
+  zip int,
+  country varchar(50),
+  contact varchar(100),
+  current varchar(3)
+);
+
+create table nyctaxi.payment (
+  payment_type varchar(20) not null,
+  payment_lookup varchar(50)
+);
+
+create table nyctaxi.trips (
+  vendor_id varchar(100),
+  pickup_datetime varchar(100),
+  dropoff_datetime varchar(100),
+  passenger_count int,
+  trip_distance decimal(10,2),
+  pickup_longitude decimal(10,6),
+  pickup_latitude decimal(10,6),
+  rate_code varchar(100),
+  store_and_fwd_flag varchar(100),
+  dropoff_longitude decimal(10,6),
+  dropoff_latitude decimal(10,6),
+  payment_type varchar(100),
+  fare_amount decimal(10,2),
+  surcharge decimal(10,2),
+  tip_amount decimal(10,2),
+  tolls_amount decimal(10,2),
+  total_amount decimal(10,2)
+);
+
+```
 
 
 ## Resultados
