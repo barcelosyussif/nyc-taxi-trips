@@ -5,7 +5,30 @@ Esse projeto realiza a análise de base de dados de corrida de taxi em Nova York
 ![Taxi](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/taxi.png)
 
 
+## Arquitetura Geral
+
+A arquitetura utiliza infraestrutura da AWS para armazenamento, processamento e disponibilização de data warehouse e data lake para consumo de dados.
+
+Escolheu-se a AWS por ser referência no mercado de serviços em cloud com grande representatividade, completa com simplicidade de desenvolvimento, qualidade, custos baixos, alta escalabilidade.
+
+![Arquitetura Geral](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/arquitetura_geral.png)
+
+Os arquivos com dados são armazenados no serviço Amazon S3 no bucket **ytbd-nyctaxi**, sendo distribuído em diretórios:
+- nyctaxi-raw: pasta para ingestão de dados originais sem transformação
+- nyctaxi-curated: pasta para arquivos filtrados e com transformações simples quando aplicadas
+- nyctaxi-history: pasta para cópia de arquivos originais para histórico, removidos da raw após transferência para curated
+- nyctaxi-lakehouse: pasta estruturada e segmentada representando um data lakehouse para consumo de dados 
+
+Foram desenvolvidos serviços Amazon Lambda para identificação de eventos de novos arquivos no bucket e processamento:
+- nyctaxi-lambda-s3-raw: identifica inserção de novos arquivos na pasta raw, copia o arquivo para estrutura de curated e para history e por fim remove o arquivo da raw
+- nyctaxi-lambda-s3-curated: identifica inserção de novos arquivos na pasta curated, transforma o arquivo para a pasta lakehouse (nesse momento apenas copia) e mantém o arquivo também na pasta curated
+
+Neste momento o provisionamento da infraestrutura ainda não foi versionalizado e realizado automaticamente com ferramentas como o TerraForm (esta é uma próxima etapa deste projeto).
+
+
 ## Visualizações dos dados
+
+As visualizações de dados foram desenvolvidas utilizando o Power BI. As consultas com os dados foram exportadas do Redshift em formato csv (ocorreu um problema no conector ODBC do Power BI com o Redshift, por isso não foi possível fazer as consultas diretamente).
 
 Nesta primeira visualização temos informações gerais:
 - Distância média percorrida por viagens com no máximo 2 passageiros
@@ -29,27 +52,6 @@ Neste mapa temos uma visão geral das maiores localidades de início e fim das v
 Nessa última visão percebe-se uma concentração de destino é maior nos arredores de New York e há um volume interessante de origens mais distantes de New York.
 
 ![Painel Mapas](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/nyctaxi-painel3.png)
-
-
-## Arquitetura Geral
-
-A arquitetura utiliza infraestrutura da AWS para armazenamento, processamento e disponibilização de data warehouse e data lake para consumo de dados.
-
-Escolheu-se a AWS por ser referência no mercado de serviços em cloud com grande representatividade, completa com simplicidade de desenvolvimento, qualidade, custos baixos, alta escalabilidade.
-
-![Arquitetura Geral](https://github.com/barcelosyussif/nyc-taxi-trips/blob/master/arquitetura_geral.png)
-
-Os arquivos com dados são armazenados no serviço Amazon S3 no bucket **ytbd-nyctaxi**, sendo distribuído em diretórios:
-- nyctaxi-raw: pasta para ingestão de dados originais sem transformação
-- nyctaxi-curated: pasta para arquivos filtrados e com transformações simples quando aplicadas
-- nyctaxi-history: pasta para cópia de arquivos originais para histórico, removidos da raw após transferência para curated
-- nyctaxi-lakehouse: pasta estruturada e segmentada representando um data lakehouse para consumo de dados 
-
-Foram desenvolvidos serviços Amazon Lambda para identificação de eventos de novos arquivos no bucket e processamento:
-- nyctaxi-lambda-s3-raw: identifica inserção de novos arquivos na pasta raw, copia o arquivo para estrutura de curated e para history e por fim remove o arquivo da raw
-- nyctaxi-lambda-s3-curated: identifica inserção de novos arquivos na pasta curated, transforma o arquivo para a pasta lakehouse (nesse momento apenas copia) e mantém o arquivo também na pasta curated
-
-Neste momento o provisionamento da infraestrutura ainda não foi versionalizado e realizado automaticamente com ferramentas como o TerraForm (esta é uma próxima etapa deste projeto).
 
 
 ## Ingestão de dados
