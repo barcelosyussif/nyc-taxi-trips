@@ -86,7 +86,6 @@ Foi aplicada a role **nyctaxi-role-s3-raw** com as políticas:
 **Código função Lambda**
 
 ```
-
 import json
 import urllib.parse
 import boto3
@@ -110,7 +109,7 @@ def lambda_handler(event, context):
         key_folder = key[:key.rfind('/')].replace('nyctaxi-raw','nyctaxi-history')
         key_file = key[key.rfind('/')+1:]
         key_date = datetime.now().strftime("%Y%m%d-%H%M%S")
-        key_history = '{}/{}-{}'.format(key_folder, key_file, key_date)
+        key_history = '{}/{}-{}'.format(key_folder, key_date, key_file)
 
         # Novo arquivo identificado
         print('Novo arquivo identificado: {}/{}'.format(bucket, key))
@@ -136,7 +135,6 @@ def lambda_handler(event, context):
         print(e)
         print('Erro ao recuperar / traballhar arquivo {} do bucket {}.'.format(key, bucket))
         raise e
-
 ```
 
 
