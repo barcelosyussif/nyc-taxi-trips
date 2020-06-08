@@ -241,9 +241,9 @@ O serviço do Amazon Redshift gerencia todo o trabalho de um data warehouse com 
 
 **Scripts criação schema e tabelas**
 
-Nesta etapa os scripts foram criados manualmente utilizando o Query Editor do Redshift.
+Nesta etapa os scripts foram criados manualmente utilizando o Query Editor do Redshift, mapeando as tabelas no schema **nyctaxi** para melhor organização.
 
-A melhor opção é criar de forma automática para melhor organização e versionamento, mas no momento falta conhecimento suficiente para fazê-lo.
+A melhor opção é criar de forma automática para melhor organização e versionamento, mas no momento falta conhecimento e prática suficientes para fazê-lo até conclusão da versão atual.
 
 ```
 
@@ -285,6 +285,26 @@ create table nyctaxi.trips (
   tolls_amount decimal(10,2),
   total_amount decimal(10,2)
 );
+
+```
+
+**Scripts criação schema e tabelas**
+
+Os dados foram carregados no Redshift utilizando o command **COPY** no Query Editor, mepeando os dados a partir das respectivas pastas no lakehouse com seus formatos e tipos de arquivos.
+
+```
+
+copy nyctaxi.vendor from 's3://ytbd-nyctaxi/nyctaxi-lakehouse/vendor/' 
+credentials 'aws_iam_role=arn:aws:iam::716124686595:role/nyctaxi-role-redshift' 
+csv delimiter ',' region 'us-east-1' bzip2 IGNOREHEADER 1;
+
+copy nyctaxi.payment from 's3://ytbd-nyctaxi/nyctaxi-lakehouse/payment/' 
+credentials 'aws_iam_role=arn:aws:iam::716124686595:role/nyctaxi-role-redshift' 
+csv delimiter ',' region 'us-east-1' bzip2 IGNOREHEADER 2;
+
+copy nyctaxi.trips from 's3://ytbd-nyctaxi/nyctaxi-lakehouse/trips/' 
+credentials 'aws_iam_role=arn:aws:iam::716124686595:role/nyctaxi-role-redshift' 
+region 'us-east-1' json 'auto' bzip2;
 
 ```
 
