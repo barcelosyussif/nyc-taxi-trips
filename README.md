@@ -432,7 +432,7 @@ limit 1000
 
 Esse projeto possibilitou ter maior contato com os serviços da AWS e aprendizado de tecnologias como o Redshift e o Lambda.
 
-Foi interessante conhecer o Redshift como ferramenta de consumo de dados, aparentando ser mais robusto que o Athena (este eu já conhecimento e prática anteriores).
+Foi interessante conhecer o Redshift como ferramenta de consumo de dados, aparentando ser mais robusto que o Athena (este eu já possuía conhecimento e prática anteriores).
 
 Algumas evoluções são importantes tanto na solução quanto no aprendizado:
 - provisionamento e versionamento da infraestrutura automaticamente com ferramentas como o TerraForm
@@ -445,3 +445,4 @@ Algumas evoluções são importantes tanto na solução quanto no aprendizado:
 - maior exploração dos dados sobre aspectos financeiros, tempos e trajetos das viagens
 - avaliação e aplicação de tecnologias de streaming para simulação de dados realtime
 - remoções períódicas de dados da history zone mantendo apenas o que o for relevante
+- necessidade de maior domínio sobre configuração a aplicação do IAM para mais segurança e correta utilização de recursos
