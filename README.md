@@ -19,7 +19,7 @@ Os arquivos com dados são armazenados no serviço Amazon S3 no bucket **ytbd-ny
 
 Foram desenvolvidos serviços Amazon Lambda para identificação de eventos de novos arquivos no bucket e processamento:
 - nyctaxi-lambda-s3-raw: identifica inserção de novos arquivos na pasta raw, copia o arquivo para estrutura de curated e para history e por fim remove o arquivo da raw
-- nyctaxi-lambda-s3-curated: identifica inserço de novos arquivos na pasta curated, transforma o arquivo para a pasta lakehouse (nesse momento apenas copia) e mantém o arquivo também na pasta curated
+- nyctaxi-lambda-s3-curated: identifica inserção de novos arquivos na pasta curated, transforma o arquivo para a pasta lakehouse (nesse momento apenas copia) e mantém o arquivo também na pasta curated
 
 Neste momento o provisionamento da infraestrutura ainda não foi versionalizado e realizado automaticamente com ferramentas como o TerraForm (esta é uma próxima etapa deste projeto).
 
@@ -137,6 +137,84 @@ def lambda_handler(event, context):
         raise e
 ```
 
+
+## Função nyctaxi-lambda-s3-curated
+
+A função identifica inserção de novos arquivos na pasta curated, transforma o arquivo para a pasta lakehouse (nesse momento apenas copia) e mantém o arquivo também na pasta curated.
+
+Esta função posteriormente poderia ser incrementada para transformação dos dados apurado para o lakehouse.
+
+**Role nyctaxi-role-s3-curated**
+
+Foi aplicada a role **nyctaxi-role-s3-curated** com as políticas:
+- AmazonS3FullAccess
+
+```
+{
+  "Version": "2012-10-17",
+  "Id": "default",
+  "Statement": [
+    {
+      "Sid": "lambda-032fb73c-f07b-4c12-a1a0-3dd98c8d9764",
+      "Effect": "Allow",
+      "Principal": {
+        "Service": "s3.amazonaws.com"
+      },
+      "Action": "lambda:InvokeFunction",
+      "Resource": "arn:aws:lambda:us-east-1:716124686595:function:nyctaxi-lambda-s3-curated",
+      "Condition": {
+        "StringEquals": {
+          "AWS:SourceAccount": "716124686595"
+        },
+        "ArnLike": {
+          "AWS:SourceArn": "arn:aws:s3:::ytbd-nyctaxi"
+        }
+      }
+    }
+  ]
+}
+```
+
+**Código função Lambda**
+
+```
+import json
+import urllib.parse
+import boto3
+from datetime import datetime
+
+s3 = boto3.client('s3')
+
+def lambda_handler(event, context):
+
+    # Recupera objeto do evento
+    bucket = event['Records'][0]['s3']['bucket']['name']
+    key = urllib.parse.unquote_plus(event['Records'][0]['s3']['object']['key'], encoding='utf-8')
+
+    # Copia para lakehouse zone
+    try:
+
+        response = s3.get_object(Bucket=bucket, Key=key)
+        obj_content_type = response['ContentType']
+
+        key_lkh = key.replace('nyctaxi-curated','nyctaxi-lakehouse')
+
+        # Novo arquivo identificado
+        print('Novo arquivo identificado: {}/{}'.format(bucket, key))
+
+        # Copia arquivo para área de lakehouse z
+        print('Copia arquivo para área de lakehouse zone: {}/{}'.format(bucket, key_lkh))
+        copy_source = { 'Bucket' : bucket, 'Key' : key }
+        s3.copy(copy_source, bucket, key_lkh)
+
+        return bucket, key, obj_content_type
+
+    except Exception as e:
+
+        print(e)
+        print('Erro ao recuperar / traballhar arquivo {} do bucket {}.'.format(key, bucket))
+        raise e
+```
 
 ## Preparação do banco de dados
 
