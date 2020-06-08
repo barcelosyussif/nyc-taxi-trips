@@ -398,7 +398,7 @@ ORDER BY trip_count DESC
 limit 1000
 ```
 ```
-SELECT round(dropoff_longitude,2) lon_ini, round(dropoff_latitude,2) lat_ini, sum(1) trip_count
+SELECT round(dropoff_longitude,2) lon_fim, round(dropoff_latitude,2) lat_fim, sum(1) trip_count
 FROM nyctaxi.trips
 WHERE substring(pickup_datetime,1,4) = '2010'
 AND round(pickup_longitude,4) <> '0.0000'
